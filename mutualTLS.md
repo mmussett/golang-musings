@@ -206,36 +206,6 @@ openssl req -config openssl.cnf \
 chmod 444 /Users/mmussett/security/cert-authority/certs/ca.cert.pem
 ```
 
-### Broker Certificate
-
-```bash
-export BROKER_PASSWORD=my-secret
-
-# Generate the Server Certificate private key
-openssl genrsa -passout pass:${BROKER_PASSWORD} \
-   -out /Users/mmussett/security/cert-authority/broker.key.pem \
-    2048
-
-# Convert the key to PEM format
-openssl pkcs8 -topk8 -inform PEM -outform PEM \
-      -in /Users/mmussett/security/cert-authority/broker.key.pem \
-      -out /Users/mmussett/security/cert-authority/broker.key-pk8.pem -nocrypt
-
-# Generate the server certificate request       
-openssl req -config /Users/mmussett/security/cert-authority/openssl.cnf \
-      -key /Users/mmussett/security/cert-authority/broker.key.pem -new -sha256 \
-      -out /Users/mmussett/security/cert-authority/broker.csr.pem \
-      -subj '/C=US/ST=CA/L=Palo Alto/O=tibco.com/CN=localhost' \
-      -passin pass:${BROKER_PASSWORD} 
-      
-# Sign the server certificate with the CA
-openssl ca -config /Users/mmussett/security/cert-authority/openssl.cnf \
-      -extensions server_cert \
-      -days 1000 -notext -md sha256 -batch \
-      -in /Users/mmussett/security/cert-authority/broker.csr.pem \
-      -out /Users/mmussett/security/cert-authority/broker.cert.pem \
-      -passin pass:${CA_PASSWORD}
-```
 
 ### Client Certificate
 
