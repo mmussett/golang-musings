@@ -208,6 +208,7 @@ chmod 444 /Users/mmussett/security/cert-authority/certs/ca.cert.pem
 
 ### Broker Certificate
 
+```bash
 export BROKER_PASSWORD=my-secret
 
 # Generate the Server Certificate private key
@@ -284,7 +285,8 @@ function generate_client_cert() {
 # Create a certificate for Adam with admin role-level access
 generate_client_cert admin admin admin-secret
 ```
-      
+ 
+## Golang code to use certificates in your client
 
 ```
     keyPairCerts, err := tls.LoadX509KeyPair("admin.cert.pem", "admin-pk8.pem")
